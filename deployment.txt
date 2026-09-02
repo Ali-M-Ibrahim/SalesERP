@@ -1,0 +1,33 @@
+npm run build
+php artisan optimize:clear
+
+
+On Namecheap shared hosting, don't try to keep:
+
+php artisan queue:work
+
+running permanently.
+
+Use a cron job.
+
+Go to:
+
+cPanel → Advanced → Cron Jobs
+
+Important correction to what I suggested earlier: Namecheap currently says cron jobs on shared hosting cannot run more frequently than every 5 minutes.
+
+Set:
+
+*/5 * * * *
+
+Command:
+
+cd /home/USERNAME/sales-erp && /usr/local/bin/php artisan queue:work --stop-when-empty --tries=3 >> /dev/null 2>&1
+
+Namecheap documents /usr/local/bin/php for PHP cron execution on shared hosting.
+
+This means if you configure:
+
+Send satisfaction email after: 60 minutes
+
+it will normally be processed around the first 5-minute cron execution after it becomes available.
