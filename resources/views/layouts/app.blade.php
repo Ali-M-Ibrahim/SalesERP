@@ -141,5 +141,273 @@
 
 @stack('scripts')
 
+{{-- Global Loader --}}
+{{-- =========================================================
+     GLOBAL FULL SCREEN LOADER
+========================================================== --}}
+<div id="global-loader"
+     class="fixed inset-0 z-[999999] hidden">
+
+    {{-- Full screen background --}}
+    <div class="absolute inset-0 bg-white"></div>
+
+    {{-- Loader content --}}
+    <div class="relative
+                z-10
+                flex
+                h-screen
+                w-screen
+                items-center
+                justify-center">
+
+        <div class="text-center">
+
+            {{-- Spinner --}}
+            <div class="mx-auto
+                        h-12
+                        w-12
+                        animate-spin
+                        rounded-full
+                        border-4
+                        border-gray-200
+                        border-t-black">
+            </div>
+
+            {{-- Loading text --}}
+            <div class="mt-5 flex items-center justify-center">
+
+                <span class="text-base
+                             font-semibold
+                             text-black">
+
+                    Loading
+
+                </span>
+
+                <span class="loading-dots
+                             ml-1
+                             text-base
+                             font-bold
+                             text-black">
+                </span>
+
+            </div>
+
+            <p class="mt-2 text-xs text-gray-500">
+                Please wait
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+    /*
+     * Animated Loading...
+     */
+    .loading-dots::after {
+        content: '';
+        animation: loadingDots 1.4s infinite;
+    }
+
+    @keyframes loadingDots {
+        0% {
+            content: '';
+        }
+
+        25% {
+            content: '.';
+        }
+
+        50% {
+            content: '..';
+        }
+
+        75%,
+        100% {
+            content: '...';
+        }
+    }
+</style>
+
+<script>
+    function showLoader() {
+        const loader = document.getElementById('global-loader');
+
+        if (!loader) {
+            return;
+        }
+
+        loader.classList.remove('hidden');
+        loader.classList.add('flex');
+    }
+
+    function hideLoader() {
+        const loader = document.getElementById('global-loader');
+
+        if (!loader) {
+            return;
+        }
+
+        loader.classList.add('hidden');
+        loader.classList.remove('flex');
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        /*
+         * Normal form submissions
+         */
+        document.addEventListener('submit', function (event) {
+
+            const form = event.target;
+
+            /*
+             * Add data-no-loader to forms
+             * where you don't want the loader.
+             */
+            if (form.hasAttribute('data-no-loader')) {
+                return;
+            }
+
+            showLoader();
+        });
+
+
+        /*
+         * Normal links
+         */
+        document.addEventListener('click', function (event) {
+
+            const link = event.target.closest('a');
+
+            if (!link) {
+                return;
+            }
+
+            /*
+             * Ignore links that should not trigger loader.
+             */
+            if (
+                link.hasAttribute('data-no-loader') ||
+                link.target === '_blank' ||
+                link.hasAttribute('download') ||
+                link.getAttribute('href') === '#' ||
+                link.getAttribute('href')?.startsWith('javascript:') ||
+                link.getAttribute('href')?.startsWith('mailto:') ||
+                link.getAttribute('href')?.startsWith('tel:')
+            ) {
+                return;
+            }
+
+            showLoader();
+        });
+
+
+        /*
+         * Hide loader when browser restores page
+         * using back/forward cache.
+         */
+        window.addEventListener('pageshow', function () {
+            hideLoader();
+        });
+
+    });
+</script>
+
+<script>
+    window.showLoader = function () {
+        const loader = document.getElementById('global-loader');
+
+        if (!loader) {
+            return;
+        }
+
+        loader.classList.remove('hidden');
+
+        /*
+         * Prevent scrolling while loading.
+         */
+        document.body.style.overflow = 'hidden';
+    };
+
+
+    window.hideLoader = function () {
+        const loader = document.getElementById('global-loader');
+
+        if (!loader) {
+            return;
+        }
+
+        loader.classList.add('hidden');
+
+        document.body.style.overflow = '';
+    };
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        /*
+         * Show loader when submitting a normal form.
+         */
+        document.addEventListener('submit', function (event) {
+
+            const form = event.target;
+
+            if (form.hasAttribute('data-no-loader')) {
+                return;
+            }
+
+            showLoader();
+        });
+
+
+        /*
+         * Show loader when navigating to another page.
+         */
+        document.addEventListener('click', function (event) {
+
+            const link = event.target.closest('a');
+
+            if (!link) {
+                return;
+            }
+
+            const href = link.getAttribute('href');
+
+            /*
+             * Ignore links that don't navigate away.
+             */
+            if (
+                link.hasAttribute('data-no-loader') ||
+                link.target === '_blank' ||
+                link.hasAttribute('download') ||
+                !href ||
+                href === '#' ||
+                href.startsWith('#') ||
+                href.startsWith('javascript:') ||
+                href.startsWith('mailto:') ||
+                href.startsWith('tel:')
+            ) {
+                return;
+            }
+
+            showLoader();
+        });
+
+
+        /*
+         * Important for browser back/forward navigation.
+         */
+        window.addEventListener('pageshow', function () {
+            hideLoader();
+        });
+
+    });
+</script>
 </body>
 </html>
