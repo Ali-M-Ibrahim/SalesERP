@@ -312,7 +312,7 @@
 
                         <p class="font-medium mt-1">
 
-                            {{ $visit->contact_position ?: '—' }}
+                            {{ $visit->contact_point_position ?: '—' }}
 
                         </p>
 
