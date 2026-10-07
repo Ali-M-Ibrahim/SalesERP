@@ -16,6 +16,9 @@ use App\Http\Controllers\ResourceController;
 use App\Models\CustomerSatisfactionInvitation;
 use App\Models\Visit;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\SalesRepPerformanceController;
+use App\Http\Controllers\Admin\CustomerVisitReportController;
+
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\SalesRepController;
@@ -33,9 +36,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/shared-resource/{resource}', [ResourceController::class, 'publicResource'])->name('resources.public');
 
-Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->middleware('auth')
-    ->name('logout');
+Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/customers/{customer}', [CustomerController::class, 'show'])->middleware('permission:customers.view')->name('customers.show');
@@ -91,6 +92,9 @@ Route::middleware(['auth', 'role:admin',])->prefix('admin')->name('admin.')->gro
     Route::get('/calendar', [AdminCalendarController::class, 'index'])->name('calendar.index');
     Route::get('/customers/export', [AdminDashboardController::class, 'export'])->name('customers.export');
     Route::get('/satisfaction-reports', [CustomerSatisfactionReportController::class, 'index'])->name('satisfaction-reports.index');
+    Route::get('/settings/sales-performance', [SalesRepPerformanceController::class, 'settings'])->name('settings.sales-performance');
+    Route::put('/settings/sales-performance', [SalesRepPerformanceController::class, 'updateSettings'])->name('settings.sales-performance.update');
+    Route::get('/reports/customer-visits', [CustomerVisitReportController::class, 'index'])->name('reports.customer-visits');
 });
 
 
@@ -101,13 +105,12 @@ Route::middleware(['auth', 'role:admin',])->prefix('admin/reports')->name('admin
     Route::get('/visits', [ReportController::class, 'visits'])->name('visits');
     Route::get('/customer-coverage', [ReportController::class, 'customerCoverage'])->name('customer-coverage');
     Route::get('/distribution', [ReportController::class, 'distribution'])->name('distribution');
-
+    Route::get('/sales-rep-performance', [SalesRepPerformanceController::class, 'index'])->name('sales-rep-performance');
 });
 
 
 Route::get('/feedback/{token}', [CustomerSatisfactionController::class, 'show'])->name('satisfaction.show');
 Route::post('/feedback/{token}', [CustomerSatisfactionController::class, 'store'])->name('satisfaction.store');
-
 
 Route::get('/test-satisfaction', function () {
 
@@ -121,3 +124,4 @@ Route::get('/test-satisfaction', function () {
     return redirect()->route('satisfaction.show', $invitation->token);
 
 });
+

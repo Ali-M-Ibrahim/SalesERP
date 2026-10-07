@@ -400,6 +400,90 @@
 
             </a>
 
+            {{-- Sales Rep Performance --}}
+            <a href="{{ route(
+    'admin.reports.sales-rep-performance',
+    request()->only([
+        'from_date',
+        'to_date',
+        'sales_rep_id',
+    ])
+) }}"
+               class="bg-white
+          border
+          border-[#DAD4C3]
+          rounded-xl
+          p-5
+          hover:border-[#1E4B43]
+          transition">
+
+                <div class="w-11 h-11
+                rounded-lg
+                bg-[#E4F3EE]
+                text-[#1E7A64]
+                flex
+                items-center
+                justify-center">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                </div>
+
+                <h2 class="font-semibold mt-4">
+                    Sales Rep Performance
+                </h2>
+
+                <p class="text-sm
+              text-[#62685F]
+              mt-1">
+                    Evaluate sales representative performance using visit completion, customer coverage, satisfaction, and location verification KPIs.
+                </p>
+
+            </a>
+
+
+            {{-- Customer Visit Frequency --}}
+            <a href="{{ route(
+    'admin.reports.customer-visits',
+    request()->only([
+        'from_date',
+        'to_date',
+        'sales_rep_id',
+        'customer_id',
+    ])
+) }}"
+               class="bg-white
+          border
+          border-[#DAD4C3]
+          rounded-xl
+          p-5
+          hover:border-[#1E4B43]
+          transition">
+
+                <div class="w-11 h-11
+                rounded-lg
+                bg-[#E4F3EE]
+                text-[#1E7A64]
+                flex
+                items-center
+                justify-center">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                </div>
+
+                <h2 class="font-semibold mt-4">
+                    Customer Visit Frequency
+                </h2>
+
+                <p class="text-sm
+              text-[#62685F]
+              mt-1">
+                    Analyze customer visit frequency, total visits, repeat visits within seven days, and identify customers requiring better follow-up.
+                </p>
+
+            </a>
+
         </div>
 
     </div>
