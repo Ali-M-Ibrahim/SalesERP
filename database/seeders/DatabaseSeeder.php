@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             SampleSeeder::class,
             ResourceSeeder::class,
             CustomerSatisfactionQuestionSeeder::class,
-            CustomerSatisfactionSettingSeeder::class
+            CustomerSatisfactionSettingSeeder::class,
+            CitySeeder::class
         ]);
     }
 }
